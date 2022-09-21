@@ -12,13 +12,19 @@ func main() {
 	rand.Seed(time.Now().UnixNano())
 
 	sample := "METHINKS IT IS LIKE A WEASEL"
-	current := weasel.Initialize(len(sample))
-	for current != sample {
-		fmt.Println(current)
+	var generationCounter int
+	currentVariant := weasel.Initialize(len(sample))
+	for currentVariant != sample {
+		const outputRate = 10
+		if generationCounter%outputRate == 0 {
+			fmt.Println(generationCounter, currentVariant)
+		}
 
-		variants := weasel.Populate(current, 0.05, 100)
-		current = weasel.Search(variants, sample)
+		variants := weasel.Populate(currentVariant, 0.05, 100)
+		currentVariant = weasel.Search(variants, sample)
+
+		generationCounter++
 	}
 
-	fmt.Println(current)
+	fmt.Println(generationCounter, currentVariant)
 }
